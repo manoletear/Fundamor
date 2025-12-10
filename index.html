@@ -195,11 +195,6 @@
             100% { transform: rotate(360deg); }
         }
         
-        /* Ocultar el iframe */
-        #hidden_iframe {
-            display: none;
-        }
-        
         @media (max-width: 600px) {
             .container {
                 border-radius: 0;
@@ -240,8 +235,7 @@
             <!-- FORMULARIO QUE SE ENVIA A GOOGLE SCRIPT DIRECTAMENTE -->
             <form id="cotizacionForm" 
                   action="https://script.google.com/macros/s/AKfycbwyxGzw4s38DjU-2pWi89MZR_WLXAhsf9t6PQUcyDqjIlFrQW8-va78aYQy43KwkOkW/exec"
-                  method="POST"
-                  target="hidden_iframe">
+                  method="POST">
                 
                 <!-- Timestamp oculto -->
                 <input type="hidden" name="timestamp" id="timestamp">
@@ -352,9 +346,6 @@
             </form>
         </div>
     </div>
-
-    <!-- Iframe oculto para recibir la respuesta -->
-    <iframe name="hidden_iframe" id="hidden_iframe"></iframe>
 
     <script>
         // Función para mostrar/ocultar región
