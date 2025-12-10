@@ -3,7 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Solicitud de Cotización - República del Cobre</title>
+    <title>Solicitar Cotización - República del Cobre</title>
+    <link rel="icon" href="https://cdn.shopify.com/s/files/1/0609/8126/5227/files/favicon.ico" type="image/x-icon">
+    
     <style>
         * {
             margin: 0;
@@ -12,50 +14,41 @@
         }
         
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
             padding: 20px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
         }
         
         .container {
-            background: white;
-            border-radius: 20px;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
             max-width: 700px;
-            width: 100%;
+            margin: 0 auto;
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
             overflow: hidden;
         }
         
         .header {
-            background: linear-gradient(135deg, #1a237e 0%, #0d47a1 100%);
+            background: linear-gradient(135deg, #1a237e 0%, #283593 100%);
             color: white;
             padding: 40px 30px;
             text-align: center;
         }
         
         .logo {
-            font-size: 32px;
-            font-weight: bold;
+            width: 120px;
+            height: auto;
+            margin-bottom: 20px;
+        }
+        
+        .header h1 {
+            font-size: 28px;
             margin-bottom: 10px;
-            letter-spacing: 2px;
+            font-weight: 600;
         }
         
-        .logo-icon {
-            display: inline-block;
-            width: 60px;
-            height: 60px;
-            background: #d4844a;
-            border-radius: 50%;
-            margin-bottom: 15px;
-            line-height: 60px;
-            font-size: 30px;
-        }
-        
-        .subtitle {
+        .header p {
             font-size: 16px;
             opacity: 0.9;
         }
@@ -65,28 +58,29 @@
         }
         
         .form-group {
-            margin-bottom: 25px;
+            margin-bottom: 24px;
         }
         
         label {
             display: block;
             margin-bottom: 8px;
+            font-weight: 500;
             color: #333;
-            font-weight: 600;
             font-size: 14px;
         }
         
         .required {
-            color: #e74c3c;
+            color: #e53935;
         }
         
         input[type="text"],
         input[type="email"],
         input[type="tel"],
+        input[type="number"],
         select,
         textarea {
             width: 100%;
-            padding: 12px 15px;
+            padding: 12px 16px;
             border: 2px solid #e0e0e0;
             border-radius: 8px;
             font-size: 15px;
@@ -104,13 +98,23 @@
         
         textarea {
             resize: vertical;
-            min-height: 80px;
+            min-height: 100px;
+        }
+        
+        select {
+            cursor: pointer;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23333' d='M6 9L1 4h10z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 16px center;
+            padding-right: 40px;
         }
         
         .checkbox-group {
             display: flex;
             align-items: center;
             gap: 10px;
+            margin-bottom: 16px;
         }
         
         input[type="checkbox"] {
@@ -122,41 +126,47 @@
         .checkbox-group label {
             margin: 0;
             cursor: pointer;
-            font-weight: normal;
         }
         
-        .btn-submit {
+        .submit-btn {
+            width: 100%;
+            padding: 16px;
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: white;
             border: none;
-            padding: 15px 40px;
+            border-radius: 8px;
             font-size: 16px;
-            font-weight: bold;
-            border-radius: 10px;
+            font-weight: 600;
             cursor: pointer;
-            width: 100%;
             transition: all 0.3s;
-            box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
+            margin-top: 20px;
         }
         
-        .btn-submit:hover {
+        .submit-btn:hover {
             transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(102, 126, 234, 0.6);
+            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.4);
         }
         
-        .btn-submit:active {
+        .submit-btn:active {
             transform: translateY(0);
         }
         
-        .btn-submit:disabled {
+        .submit-btn:disabled {
             background: #ccc;
             cursor: not-allowed;
             transform: none;
         }
         
+        h3 {
+            color: #1a237e;
+            margin: 30px 0 20px;
+            font-size: 18px;
+            font-weight: 600;
+        }
+        
         .success-message,
         .error-message {
-            padding: 15px;
+            padding: 16px;
             border-radius: 8px;
             margin-bottom: 20px;
             display: none;
@@ -195,33 +205,20 @@
             100% { transform: rotate(360deg); }
         }
         
-        .info-box {
-            background: #e3f2fd;
-            border-left: 4px solid #2196F3;
-            padding: 15px;
-            margin-bottom: 25px;
-            border-radius: 4px;
-            font-size: 14px;
-        }
-        
-        .footer {
-            text-align: center;
-            padding: 20px;
-            background: #f5f5f5;
-            color: #666;
-            font-size: 13px;
-        }
-        
         @media (max-width: 600px) {
-            body {
-                padding: 10px;
-            }
-            
-            .form-container {
-                padding: 30px 20px;
+            .container {
+                border-radius: 0;
             }
             
             .header {
+                padding: 30px 20px;
+            }
+            
+            .header h1 {
+                font-size: 24px;
+            }
+            
+            .form-container {
                 padding: 30px 20px;
             }
         }
@@ -230,27 +227,28 @@
 <body>
     <div class="container">
         <div class="header">
-            <div class="logo-icon">🥉</div>
-            <div class="logo">REPÚBLICA DEL COBRE</div>
-            <div class="subtitle">Solicitud de Cotización</div>
+            <img src="https://cdn.shopify.com/s/files/1/0609/8126/5227/files/logo-rdc.png" alt="República del Cobre" class="logo">
+            <h1>Solicitar Cotización</h1>
+            <p>Complete el formulario y nos contactaremos a la brevedad</p>
         </div>
         
         <div class="form-container">
-            <div class="info-box">
-                📋 Complete el formulario y recibirá una cotización personalizada en menos de 1 hora hábil.
+            <div id="successMessage" class="success-message">
+                ✅ ¡Solicitud enviada exitosamente! Nos contactaremos pronto.
             </div>
             
-            <div class="success-message" id="successMessage">
-                ✅ ¡Solicitud enviada exitosamente! Recibirá su cotización pronto por email.
+            <div id="errorMessage" class="error-message">
+                ❌ Error al enviar la solicitud. Por favor intente nuevamente.
             </div>
             
-            <div class="error-message" id="errorMessage">
-                ❌ Hubo un error al enviar el formulario. Por favor intente nuevamente.
+            <div id="loadingSpinner" class="loading">
+                <div class="spinner"></div>
+                <p style="margin-top: 15px; color: #666;">Enviando solicitud...</p>
             </div>
             
             <form id="cotizacionForm">
                 <!-- Datos de Contacto -->
-                <h3 style="margin-bottom: 20px; color: #1a237e;">Datos de Contacto</h3>
+                <h3>📋 Datos de Contacto</h3>
                 
                 <div class="form-group">
                     <label>Nombre Completo <span class="required">*</span></label>
@@ -277,7 +275,7 @@
                 </div>
                 
                 <!-- Productos -->
-                <h3 style="margin: 30px 0 20px; color: #1a237e;">Producto de Interés</h3>
+                <h3 style="margin: 30px 0 20px; color: #1a237e;">📦 Producto de Interés</h3>
                 
                 <div class="form-group">
                     <label>Seleccione Producto <span class="required">*</span></label>
@@ -310,68 +308,55 @@
                 
                 <div class="form-group">
                     <label>Cantidad <span class="required">*</span></label>
-                    <input type="text" id="cantidad" name="cantidad" required 
-                           placeholder="Ej: 10" pattern="[0-9]+">
+                    <input type="number" id="cantidad" name="cantidad" required min="1" 
+                           placeholder="Ej: 10">
                 </div>
                 
                 <!-- Servicios Adicionales -->
-                <h3 style="margin: 30px 0 20px; color: #1a237e;">Servicios Adicionales</h3>
+                <h3>✨ Servicios Adicionales</h3>
                 
-                <div class="form-group">
-                    <div class="checkbox-group">
-                        <input type="checkbox" id="grabado" name="grabado" value="SI">
-                        <label for="grabado">Requiero grabado láser personalizado (+$2.500 por unidad)</label>
-                    </div>
+                <div class="checkbox-group">
+                    <input type="checkbox" id="grabado" name="grabado">
+                    <label for="grabado">Grabado láser personalizado (+$2,500 por producto)</label>
                 </div>
                 
-                <div class="form-group">
-                    <div class="checkbox-group">
-                        <input type="checkbox" id="despacho" name="despacho" value="SI">
-                        <label for="despacho">Requiero despacho</label>
-                    </div>
+                <div class="checkbox-group">
+                    <input type="checkbox" id="despacho" name="despacho">
+                    <label for="despacho">Necesito despacho</label>
                 </div>
                 
                 <div class="form-group" id="regionGroup" style="display: none;">
                     <label>Región de Despacho <span class="required">*</span></label>
                     <select id="region" name="region">
-                        <option value="Santiago">Santiago (Gratis)</option>
+                        <option value="">-- Seleccione región --</option>
+                        <option value="Santiago">Santiago (24-48hrs - $20,000)</option>
                         <option value="Valparaíso">Valparaíso</option>
                         <option value="Concepción">Concepción</option>
                         <option value="La Serena">La Serena</option>
-                        <option value="Temuco">Temuco</option>
-                        <option value="Puerto Montt">Puerto Montt</option>
-                        <option value="Otra">Otra región</option>
+                        <option value="Otra">Otra región (3-5 días - $35,000)</option>
                     </select>
                 </div>
                 
+                <!-- Notas -->
                 <div class="form-group">
-                    <label>Notas o Comentarios Adicionales (opcional)</label>
+                    <label>Notas o Comentarios (opcional)</label>
                     <textarea id="notas" name="notas" 
-                              placeholder="Ej: Necesito el logo de mi empresa grabado, fecha de entrega requerida, etc."></textarea>
+                              placeholder="Ej: Necesito el grabado con el logo de mi empresa..."></textarea>
                 </div>
                 
-                <div class="loading" id="loading">
-                    <div class="spinner"></div>
-                    <p style="margin-top: 15px; color: #666;">Enviando solicitud...</p>
-                </div>
-                
-                <button type="submit" class="btn-submit" id="submitBtn">
-                    Solicitar Cotización
+                <!-- Botón Submit -->
+                <button type="submit" class="submit-btn">
+                    📨 Solicitar Cotización
                 </button>
             </form>
         </div>
-        
-        <div class="footer">
-            © 2024 República del Cobre - Todos los derechos reservados<br>
-            www.republicadelcobre.cl
-        </div>
     </div>
-    
+
     <script>
-        // IMPORTANTE: Reemplaza esta URL con la URL de tu Google Apps Script Web App
+        // ⚠️ URL de tu Google Apps Script Web App
         const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbypJE8YX96UUmaF9doXNk8vdqbeBhWKL-4Zy4gX6cjoBBO_1WZVpvk8YdDiM5L0m_pnQA/exec';
         
-        // Mostrar/ocultar campo de región según checkbox de despacho
+        // Mostrar/ocultar campo de región
         document.getElementById('despacho').addEventListener('change', function() {
             const regionGroup = document.getElementById('regionGroup');
             const regionSelect = document.getElementById('region');
@@ -382,6 +367,7 @@
             } else {
                 regionGroup.style.display = 'none';
                 regionSelect.required = false;
+                regionSelect.value = '';
             }
         });
         
@@ -389,77 +375,75 @@
         document.getElementById('cotizacionForm').addEventListener('submit', async function(e) {
             e.preventDefault();
             
-            // Elementos UI
-            const submitBtn = document.getElementById('submitBtn');
-            const loading = document.getElementById('loading');
-            const successMessage = document.getElementById('successMessage');
-            const errorMessage = document.getElementById('errorMessage');
-            const form = this;
-            
-            // Ocultar mensajes previos
-            successMessage.style.display = 'none';
-            errorMessage.style.display = 'none';
+            // Ocultar mensajes anteriores
+            document.getElementById('successMessage').style.display = 'none';
+            document.getElementById('errorMessage').style.display = 'none';
             
             // Mostrar loading
+            document.getElementById('loadingSpinner').style.display = 'block';
+            const submitBtn = this.querySelector('button[type="submit"]');
             submitBtn.disabled = true;
-            loading.style.display = 'block';
             
-            // Preparar datos
+            // Recopilar datos del formulario
             const formData = {
                 timestamp: new Date().toISOString(),
                 nombre_contacto: document.getElementById('nombreContacto').value,
                 email: document.getElementById('email').value,
                 telefono: document.getElementById('telefono').value,
-                nombre_cliente: document.getElementById('nombreCliente').value || document.getElementById('nombreContacto').value,
+                nombre_cliente: document.getElementById('nombreCliente').value || '',
                 productos_solicitados: document.getElementById('producto').value,
                 cantidades: document.getElementById('cantidad').value,
                 necesita_grabado: document.getElementById('grabado').checked ? 'SI' : 'NO',
                 necesita_despacho: document.getElementById('despacho').checked ? 'SI' : 'NO',
-                region: document.getElementById('despacho').checked ? document.getElementById('region').value : 'N/A',
-                notas: document.getElementById('notas').value,
-                procesado: 'NO'
+                region: document.getElementById('region').value || '',
+                notas: document.getElementById('notas').value || ''
             };
             
             try {
                 // Enviar a Google Apps Script
+                console.log('📤 Enviando datos:', formData);
+                
                 const response = await fetch(GOOGLE_SCRIPT_URL, {
                     method: 'POST',
-                    mode: 'no-cors', // Importante para CORS
                     headers: {
                         'Content-Type': 'application/json',
                     },
                     body: JSON.stringify(formData)
                 });
                 
-                // Mostrar éxito
-                loading.style.display = 'none';
-                successMessage.style.display = 'block';
-                form.reset();
+                console.log('📥 Respuesta recibida:', response);
                 
-                // Scroll al mensaje
-                successMessage.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                // Intentar leer la respuesta
+                let result;
+                try {
+                    result = await response.json();
+                    console.log('📄 Resultado:', result);
+                } catch (e) {
+                    console.log('⚠️ No se pudo parsear JSON, pero puede ser éxito');
+                    result = { success: true };
+                }
                 
-                // Re-habilitar botón después de 3 segundos
-                setTimeout(() => {
-                    submitBtn.disabled = false;
-                    successMessage.style.display = 'none';
-                }, 3000);
+                if (result.success !== false) {
+                    document.getElementById('loadingSpinner').style.display = 'none';
+                    document.getElementById('successMessage').style.display = 'block';
+                    
+                    // Limpiar formulario
+                    this.reset();
+                    document.getElementById('regionGroup').style.display = 'none';
+                    
+                    // Scroll al mensaje de éxito
+                    document.getElementById('successMessage').scrollIntoView({ behavior: 'smooth', block: 'center' });
+                } else {
+                    throw new Error(result.error || 'Error desconocido');
+                }
                 
             } catch (error) {
                 console.error('Error:', error);
-                loading.style.display = 'none';
-                errorMessage.style.display = 'block';
-                errorMessage.textContent = '❌ Error: ' + error.message;
+                document.getElementById('loadingSpinner').style.display = 'none';
+                document.getElementById('errorMessage').style.display = 'block';
+            } finally {
                 submitBtn.disabled = false;
-                
-                // Scroll al mensaje de error
-                errorMessage.scrollIntoView({ behavior: 'smooth', block: 'center' });
             }
-        });
-        
-        // Validación en tiempo real
-        document.getElementById('cantidad').addEventListener('input', function() {
-            this.value = this.value.replace(/[^0-9]/g, '');
         });
     </script>
 </body>
