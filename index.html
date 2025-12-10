@@ -164,24 +164,14 @@
             font-weight: 600;
         }
         
-        .success-message,
-        .error-message {
+        .success-message {
             padding: 16px;
             border-radius: 8px;
             margin-bottom: 20px;
             display: none;
-        }
-        
-        .success-message {
             background: #d4edda;
             color: #155724;
             border: 1px solid #c3e6cb;
-        }
-        
-        .error-message {
-            background: #f8d7da;
-            color: #721c24;
-            border: 1px solid #f5c6cb;
         }
         
         .loading {
@@ -203,6 +193,11 @@
         @keyframes spin {
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
+        }
+        
+        /* Ocultar el iframe */
+        #hidden_iframe {
+            display: none;
         }
         
         @media (max-width: 600px) {
@@ -237,40 +232,44 @@
                 ✅ ¡Solicitud enviada exitosamente! Nos contactaremos pronto.
             </div>
             
-            <div id="errorMessage" class="error-message">
-                ❌ Error al enviar la solicitud. Por favor intente nuevamente.
-            </div>
-            
             <div id="loadingSpinner" class="loading">
                 <div class="spinner"></div>
                 <p style="margin-top: 15px; color: #666;">Enviando solicitud...</p>
             </div>
             
-            <form id="cotizacionForm">
+            <!-- FORMULARIO QUE SE ENVIA A GOOGLE SCRIPT DIRECTAMENTE -->
+            <form id="cotizacionForm" 
+                  action="https://script.google.com/macros/s/AKfycbypJE8YX96UUmaF9doXNk8vdqbeBhWKL-4Zy4gX6cjoBBO_1WZVpvk8YdDiM5L0m_pnQA/exec"
+                  method="POST"
+                  target="hidden_iframe">
+                
+                <!-- Timestamp oculto -->
+                <input type="hidden" name="timestamp" id="timestamp">
+                
                 <!-- Datos de Contacto -->
                 <h3>📋 Datos de Contacto</h3>
                 
                 <div class="form-group">
                     <label>Nombre Completo <span class="required">*</span></label>
-                    <input type="text" id="nombreContacto" name="nombreContacto" required 
+                    <input type="text" name="nombre_contacto" required 
                            placeholder="Ej: Juan Pérez">
                 </div>
                 
                 <div class="form-group">
                     <label>Email <span class="required">*</span></label>
-                    <input type="email" id="email" name="email" required 
+                    <input type="email" name="email" required 
                            placeholder="Ej: juan@empresa.cl">
                 </div>
                 
                 <div class="form-group">
                     <label>Teléfono <span class="required">*</span></label>
-                    <input type="tel" id="telefono" name="telefono" required 
+                    <input type="tel" name="telefono" required 
                            placeholder="Ej: +56 9 1234 5678">
                 </div>
                 
                 <div class="form-group">
                     <label>Nombre de Empresa (opcional)</label>
-                    <input type="text" id="nombreCliente" name="nombreCliente" 
+                    <input type="text" name="nombre_cliente" 
                            placeholder="Ej: Empresa ABC SpA">
                 </div>
                 
@@ -279,7 +278,7 @@
                 
                 <div class="form-group">
                     <label>Seleccione Producto <span class="required">*</span></label>
-                    <select id="producto" name="producto" required>
+                    <select name="productos_solicitados" required>
                         <option value="">-- Seleccione una opción --</option>
                         <optgroup label="🥃 Vasos Pisco Sour">
                             <option value="Vaso pisco sour Cachai - Set 2">Vaso Cachai Set 2 ($29,403)</option>
@@ -308,26 +307,28 @@
                 
                 <div class="form-group">
                     <label>Cantidad <span class="required">*</span></label>
-                    <input type="number" id="cantidad" name="cantidad" required min="1" 
+                    <input type="number" name="cantidades" required min="1" 
                            placeholder="Ej: 10">
                 </div>
                 
                 <!-- Servicios Adicionales -->
                 <h3>✨ Servicios Adicionales</h3>
                 
+                <input type="hidden" name="necesita_grabado" value="NO" id="grabadoHidden">
                 <div class="checkbox-group">
-                    <input type="checkbox" id="grabado" name="grabado">
+                    <input type="checkbox" id="grabado" onchange="document.getElementById('grabadoHidden').value = this.checked ? 'SI' : 'NO'">
                     <label for="grabado">Grabado láser personalizado (+$2,500 por producto)</label>
                 </div>
                 
+                <input type="hidden" name="necesita_despacho" value="NO" id="despachoHidden">
                 <div class="checkbox-group">
-                    <input type="checkbox" id="despacho" name="despacho">
+                    <input type="checkbox" id="despacho" onchange="toggleDespacho(this)">
                     <label for="despacho">Necesito despacho</label>
                 </div>
                 
                 <div class="form-group" id="regionGroup" style="display: none;">
                     <label>Región de Despacho <span class="required">*</span></label>
-                    <select id="region" name="region">
+                    <select name="region" id="regionSelect">
                         <option value="">-- Seleccione región --</option>
                         <option value="Santiago">Santiago (24-48hrs - $20,000)</option>
                         <option value="Valparaíso">Valparaíso</option>
@@ -340,7 +341,7 @@
                 <!-- Notas -->
                 <div class="form-group">
                     <label>Notas o Comentarios (opcional)</label>
-                    <textarea id="notas" name="notas" 
+                    <textarea name="notas" 
                               placeholder="Ej: Necesito el grabado con el logo de mi empresa..."></textarea>
                 </div>
                 
@@ -352,103 +353,58 @@
         </div>
     </div>
 
+    <!-- Iframe oculto para recibir la respuesta -->
+    <iframe name="hidden_iframe" id="hidden_iframe"></iframe>
+
     <script>
-        // ⚠️ URL de tu Google Apps Script Web App
-        const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbypJE8YX96UUmaF9doXNk8vdqbeBhWKL-4Zy4gX6cjoBBO_1WZVpvk8YdDiM5L0m_pnQA/exec';
-        
-        // Mostrar/ocultar campo de región
-        document.getElementById('despacho').addEventListener('change', function() {
+        // Función para mostrar/ocultar región
+        function toggleDespacho(checkbox) {
             const regionGroup = document.getElementById('regionGroup');
-            const regionSelect = document.getElementById('region');
+            const regionSelect = document.getElementById('regionSelect');
+            const despachoHidden = document.getElementById('despachoHidden');
             
-            if (this.checked) {
+            if (checkbox.checked) {
                 regionGroup.style.display = 'block';
                 regionSelect.required = true;
+                despachoHidden.value = 'SI';
             } else {
                 regionGroup.style.display = 'none';
                 regionSelect.required = false;
                 regionSelect.value = '';
+                despachoHidden.value = 'NO';
             }
-        });
+        }
         
         // Manejar envío del formulario
-        document.getElementById('cotizacionForm').addEventListener('submit', async function(e) {
-            e.preventDefault();
-            
-            // Ocultar mensajes anteriores
-            document.getElementById('successMessage').style.display = 'none';
-            document.getElementById('errorMessage').style.display = 'none';
+        document.getElementById('cotizacionForm').addEventListener('submit', function(e) {
+            // Agregar timestamp
+            document.getElementById('timestamp').value = new Date().toISOString();
             
             // Mostrar loading
             document.getElementById('loadingSpinner').style.display = 'block';
+            document.getElementById('successMessage').style.display = 'none';
+            
+            // Deshabilitar botón
             const submitBtn = this.querySelector('button[type="submit"]');
             submitBtn.disabled = true;
             
-            // Recopilar datos del formulario
-            const formData = {
-                timestamp: new Date().toISOString(),
-                nombre_contacto: document.getElementById('nombreContacto').value,
-                email: document.getElementById('email').value,
-                telefono: document.getElementById('telefono').value,
-                nombre_cliente: document.getElementById('nombreCliente').value || '',
-                productos_solicitados: document.getElementById('producto').value,
-                cantidades: document.getElementById('cantidad').value,
-                necesita_grabado: document.getElementById('grabado').checked ? 'SI' : 'NO',
-                necesita_despacho: document.getElementById('despacho').checked ? 'SI' : 'NO',
-                region: document.getElementById('region').value || '',
-                notas: document.getElementById('notas').value || ''
-            };
-            
-            try {
-                // Crear FormData para evitar CORS preflight
-                console.log('📤 Enviando datos:', formData);
-                
-                const form = new FormData();
-                for (const [key, value] of Object.entries(formData)) {
-                    form.append(key, value);
-                }
-                
-                const response = await fetch(GOOGLE_SCRIPT_URL, {
-                    method: 'POST',
-                    body: form
-                });
-                
-                console.log('📥 Respuesta recibida:', response);
-                
-                // Intentar leer la respuesta
-                let result;
-                try {
-                    const text = await response.text();
-                    console.log('📄 Texto respuesta:', text);
-                    result = JSON.parse(text);
-                    console.log('📄 Resultado:', result);
-                } catch (e) {
-                    console.log('⚠️ No se pudo parsear respuesta:', e);
-                    // Si llegamos aquí sin error de red, asumimos éxito
-                    result = { success: true };
-                }
-                
-                if (result.success !== false) {
-                    document.getElementById('loadingSpinner').style.display = 'none';
-                    document.getElementById('successMessage').style.display = 'block';
-                    
-                    // Limpiar formulario
-                    this.reset();
-                    document.getElementById('regionGroup').style.display = 'none';
-                    
-                    // Scroll al mensaje de éxito
-                    document.getElementById('successMessage').scrollIntoView({ behavior: 'smooth', block: 'center' });
-                } else {
-                    throw new Error(result.error || 'Error desconocido');
-                }
-                
-            } catch (error) {
-                console.error('Error:', error);
+            // Después de 2 segundos, mostrar éxito
+            setTimeout(function() {
                 document.getElementById('loadingSpinner').style.display = 'none';
-                document.getElementById('errorMessage').style.display = 'block';
-            } finally {
+                document.getElementById('successMessage').style.display = 'block';
+                
+                // Limpiar formulario
+                document.getElementById('cotizacionForm').reset();
+                document.getElementById('regionGroup').style.display = 'none';
+                document.getElementById('grabadoHidden').value = 'NO';
+                document.getElementById('despachoHidden').value = 'NO';
+                
+                // Habilitar botón
                 submitBtn.disabled = false;
-            }
+                
+                // Scroll al mensaje
+                document.getElementById('successMessage').scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }, 2000);
         });
     </script>
 </body>
