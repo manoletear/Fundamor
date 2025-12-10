@@ -12,11 +12,7 @@
             padding: 30px;
             background: #f4f4f4;
         }
-
-        h2 {
-            text-align: center;
-        }
-
+        h2 { text-align: center; }
         form {
             max-width: 480px;
             margin: auto;
@@ -24,13 +20,11 @@
             padding: 25px;
             border-radius: 8px;
         }
-
         label {
             font-weight: bold;
             display: block;
             margin-top: 12px;
         }
-
         input, select, textarea {
             width: 100%;
             padding: 10px;
@@ -39,7 +33,6 @@
             border: 1px solid #ccc;
             font-size: 14px;
         }
-
         button {
             width: 100%;
             margin-top: 20px;
@@ -51,10 +44,7 @@
             border-radius: 6px;
             font-size: 15px;
         }
-
-        button:hover {
-            background: #333;
-        }
+        button:hover { background: #333; }
     </style>
 </head>
 
@@ -80,7 +70,7 @@
     <select name="codigo_producto" required>
         <option value="">Selecciona un producto</option>
 
-        <!-- SOLO CÓDIGO EN EL VALUE -->
+        <!-- SOLO CÓDIGO en el value -->
         <option value="PROD-00">Vaso pisco sour Cachai - Set 2 unidades</option>
         <option value="PROD-009">Jarro Llaima - Individual</option>
         <option value="PROD-010">Set Jarro + 2 Vasos Premium</option>
@@ -120,10 +110,12 @@ document.getElementById("cotizacionForm").addEventListener("submit", async funct
     const formData = new FormData(this);
     const data = Object.fromEntries(formData.entries());
 
-    console.log("📤 Enviando datos:", data);
+    // 🔥 IMPORTANTE:
+    // SOLO se envía el código, NO el texto. Eso ya está corregido.
+    // El value del select YA VIENE LIMPIO ("PROD-00")
 
     const response = await fetch(
-        "https://script.google.com/macros/s/AKfycbySk-Po4nI4SDzdad7leJwuAaMQP6gIqOafHQQYtdBsas8dIXUP-iuED0XY4yKe5dX8/exec",
+        "https://script.google.com/macros/s/AKfycbwkq1TRuerWroDMDqzyrUk5I_MaqTSiV2Q0FCobQiP2MlcwJnyE41OUtGXaubeGUHk/exec",
         {
             method: "POST",
             body: new URLSearchParams(data),
@@ -132,8 +124,6 @@ document.getElementById("cotizacionForm").addEventListener("submit", async funct
     );
 
     const result = await response.json();
-
-    console.log("📥 Respuesta del WebApp:", result);
 
     if (result.success) {
         alert("Solicitud enviada correctamente 🎉");
