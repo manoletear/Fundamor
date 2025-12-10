@@ -123,11 +123,6 @@
             cursor: pointer;
         }
         
-        .checkbox-group label {
-            margin: 0;
-            cursor: pointer;
-        }
-        
         .submit-btn {
             width: 100%;
             padding: 16px;
@@ -194,26 +189,9 @@
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
         }
-        
-        @media (max-width: 600px) {
-            .container {
-                border-radius: 0;
-            }
-            
-            .header {
-                padding: 30px 20px;
-            }
-            
-            .header h1 {
-                font-size: 24px;
-            }
-            
-            .form-container {
-                padding: 30px 20px;
-            }
-        }
     </style>
 </head>
+
 <body>
     <div class="container">
         <div class="header">
@@ -232,80 +210,77 @@
                 <p style="margin-top: 15px; color: #666;">Enviando solicitud...</p>
             </div>
             
-            <!-- FORMULARIO QUE SE ENVIA A GOOGLE SCRIPT DIRECTAMENTE -->
             <form id="cotizacionForm" 
                   action="https://script.google.com/macros/s/AKfycbwyxGzw4s38DjU-2pWi89MZR_WLXAhsf9t6PQUcyDqjIlFrQW8-va78aYQy43KwkOkW/exec"
                   method="POST">
                 
-                <!-- Timestamp oculto -->
                 <input type="hidden" name="timestamp" id="timestamp">
                 
-                <!-- Datos de Contacto -->
                 <h3>📋 Datos de Contacto</h3>
                 
                 <div class="form-group">
                     <label>Nombre Completo <span class="required">*</span></label>
-                    <input type="text" name="nombre_contacto" required 
-                           placeholder="Ej: Juan Pérez">
+                    <input type="text" name="nombre_contacto" required placeholder="Ej: Juan Pérez">
                 </div>
                 
                 <div class="form-group">
                     <label>Email <span class="required">*</span></label>
-                    <input type="email" name="email" required 
-                           placeholder="Ej: juan@empresa.cl">
+                    <input type="email" name="email" required placeholder="Ej: juan@empresa.cl">
                 </div>
                 
                 <div class="form-group">
                     <label>Teléfono <span class="required">*</span></label>
-                    <input type="tel" name="telefono" required 
-                           placeholder="Ej: +56 9 1234 5678">
+                    <input type="tel" name="telefono" required placeholder="Ej: +56 9 1234 5678">
                 </div>
                 
                 <div class="form-group">
                     <label>Nombre de Empresa (opcional)</label>
-                    <input type="text" name="nombre_cliente" 
-                           placeholder="Ej: Empresa ABC SpA">
+                    <input type="text" name="nombre_cliente" placeholder="Ej: Empresa ABC SpA">
                 </div>
-                
-                <!-- Productos -->
-                <h3 style="margin: 30px 0 20px; color: #1a237e;">📦 Producto de Interés</h3>
-                
+
+                <!-- PRODUCTO CON CÓDIGOS CORRECTOS -->
+                <h3>📦 Producto de Interés</h3>
+
                 <div class="form-group">
                     <label>Seleccione Producto <span class="required">*</span></label>
-                    <select name="productos_solicitados" required>
+
+                    <select name="codigo_producto" required>
                         <option value="">-- Seleccione una opción --</option>
+
                         <optgroup label="🥃 Vasos Pisco Sour">
-                            <option value="Vaso pisco sour Cachai - Set 2">Vaso Cachai Set 2 ($29,403)</option>
-                            <option value="Vaso pisco sour Cachai - Set 4">Vaso Cachai Set 4 ($54,613)</option>
-                            <option value="Vaso Cachai COLORES - Set 2">Vaso Cachai Colores Set 2 ($29,403)</option>
-                            <option value="Vaso Cachai COLORES - Set 4">Vaso Cachai Colores Set 4 ($58,815)</option>
+                            <option value="PROD-00 Vaso pisco sour Cachai - Set 2 unidades">Vaso Cachai Set 2 ($29,403)</option>
+                            <option value="PROD-00 Vaso pisco sour Cachai - Set 4 unidades">Vaso Cachai Set 4 ($54,613)</option>
+                            <option value="PROD-00 Vaso Cachai COLORES - Set 2">Vaso Cachai Colores Set 2 ($29,403)</option>
+                            <option value="PROD-00 Vaso Cachai COLORES - Set 4">Vaso Cachai Colores Set 4 ($58,815)</option>
                         </optgroup>
+
                         <optgroup label="☕ Mugs y Jarros">
-                            <option value="Mug cobre - Individual">Mug Atacama Individual ($26,042)</option>
-                            <option value="Mug cobre - Set 2 unidades">Mug Atacama Set 2 ($46,210)</option>
-                            <option value="Jarro Llaima - Individual">Jarro Llaima ($46,210)</option>
-                            <option value="Jarro Moscow Mule">Jarro Moscow Mule ($29,403)</option>
+                            <option value="PROD-00 Mug cobre - Individual">Mug Atacama Individual ($26,042)</option>
+                            <option value="PROD-00 Mug cobre - Set 2 unidades">Mug Atacama Set 2 ($46,210)</option>
+                            <option value="PROD-00 Jarro Llaima - Individual">Jarro Llaima ($46,210)</option>
+                            <option value="PROD-00 Jarro Moscow Mule - Individual">Jarro Moscow Mule ($29,403)</option>
                         </optgroup>
+
                         <optgroup label="🍷 Copas y Vasos">
-                            <option value="Copa Torres del Paine">Copa Torres del Paine ($29,403)</option>
-                            <option value="Copa Torres - Set 2">Copa Torres Set 2 ($54,613)</option>
-                            <option value="Vaso Elqui - Individual">Vaso Elqui Piscolero ($26,042)</option>
-                            <option value="Vaso Antártica - Individual">Vaso Antártica Doble Pared ($29,403)</option>
+                            <option value="PROD-01 Copa Torres del Paine - Individual">Copa Torres del Paine ($29,403)</option>
+                            <option value="PROD-01 Copa Torres - Set 2">Copa Torres Set 2 ($54,613)</option>
+                            <option value="PROD-00 Vaso Elqui DOBLE PARED - Individual">Vaso Elqui Piscolero ($26,042)</option>
+                            <option value="PROD-01 Vaso Antártica - Individual">Vaso Antártica Doble Pared ($29,403)</option>
                         </optgroup>
+
                         <optgroup label="🎁 Sets Especiales">
-                            <option value="Set Mestizo - 4 piezas">Set Mestizo Completo ($79,832)</option>
+                            <option value="PROD-00 Set Mestizo - 4 piezas">Set Mestizo Completo ($79,832)</option>
                         </optgroup>
+
                         <option value="OTRO">Otro producto (especificar en notas)</option>
                     </select>
                 </div>
-                
+
                 <div class="form-group">
                     <label>Cantidad <span class="required">*</span></label>
-                    <input type="number" name="cantidades" required min="1" 
-                           placeholder="Ej: 10">
+                    <input type="number" name="cantidades" required min="1" placeholder="Ej: 10">
                 </div>
                 
-                <!-- Servicios Adicionales -->
                 <h3>✨ Servicios Adicionales</h3>
                 
                 <input type="hidden" name="necesita_grabado" value="NO" id="grabadoHidden">
@@ -332,14 +307,11 @@
                     </select>
                 </div>
                 
-                <!-- Notas -->
                 <div class="form-group">
                     <label>Notas o Comentarios (opcional)</label>
-                    <textarea name="notas" 
-                              placeholder="Ej: Necesito el grabado con el logo de mi empresa..."></textarea>
+                    <textarea name="notas" placeholder="Ej: Necesito el grabado con el logo de mi empresa..."></textarea>
                 </div>
                 
-                <!-- Botón Submit -->
                 <button type="submit" class="submit-btn">
                     📨 Solicitar Cotización
                 </button>
@@ -348,7 +320,6 @@
     </div>
 
     <script>
-        // Función para mostrar/ocultar región
         function toggleDespacho(checkbox) {
             const regionGroup = document.getElementById('regionGroup');
             const regionSelect = document.getElementById('regionSelect');
@@ -366,51 +337,33 @@
             }
         }
         
-        // Manejar envío del formulario
         document.getElementById('cotizacionForm').addEventListener('submit', function(e) {
             console.log('🔵 Formulario enviándose...');
             
-            // Agregar timestamp
             const timestamp = new Date().toISOString();
             document.getElementById('timestamp').value = timestamp;
-            console.log('⏰ Timestamp:', timestamp);
             
-            // Mostrar loading
             document.getElementById('loadingSpinner').style.display = 'block';
             document.getElementById('successMessage').style.display = 'none';
             
-            // Deshabilitar botón
             const submitBtn = this.querySelector('button[type="submit"]');
             submitBtn.disabled = true;
             
-            // Log de datos que se envían
-            const formData = new FormData(this);
-            console.log('📦 Datos a enviar:');
-            for (let [key, value] of formData.entries()) {
-                console.log(`  ${key}: ${value}`);
-            }
-            
-            console.log('🚀 Enviando a:', this.action);
-            
-            // Después de 2 segundos, mostrar éxito
             setTimeout(function() {
-                console.log('✅ Mostrando mensaje de éxito');
                 document.getElementById('loadingSpinner').style.display = 'none';
                 document.getElementById('successMessage').style.display = 'block';
                 
-                // Limpiar formulario
                 document.getElementById('cotizacionForm').reset();
                 document.getElementById('regionGroup').style.display = 'none';
                 document.getElementById('grabadoHidden').value = 'NO';
                 document.getElementById('despachoHidden').value = 'NO';
                 
-                // Habilitar botón
                 submitBtn.disabled = false;
                 
-                // Scroll al mensaje
                 document.getElementById('successMessage').scrollIntoView({ behavior: 'smooth', block: 'center' });
             }, 2000);
         });
     </script>
 </body>
 </html>
+
