@@ -239,7 +239,7 @@
             
             <!-- FORMULARIO QUE SE ENVIA A GOOGLE SCRIPT DIRECTAMENTE -->
             <form id="cotizacionForm" 
-                  action="https://script.google.com/macros/s/AKfycbypJE8YX96UUmaF9doXNk8vdqbeBhWKL-4Zy4gX6cjoBBO_1WZVpvk8YdDiM5L0m_pnQA/exec"
+                  action="https://script.google.com/macros/s/AKfycbwyxGzw4s38DjU-2pWi89MZR_WLXAhsf9t6PQUcyDqjIlFrQW8-va78aYQy43KwkOkW/exec"
                   method="POST"
                   target="hidden_iframe">
                 
@@ -377,8 +377,12 @@
         
         // Manejar envío del formulario
         document.getElementById('cotizacionForm').addEventListener('submit', function(e) {
+            console.log('🔵 Formulario enviándose...');
+            
             // Agregar timestamp
-            document.getElementById('timestamp').value = new Date().toISOString();
+            const timestamp = new Date().toISOString();
+            document.getElementById('timestamp').value = timestamp;
+            console.log('⏰ Timestamp:', timestamp);
             
             // Mostrar loading
             document.getElementById('loadingSpinner').style.display = 'block';
@@ -388,8 +392,18 @@
             const submitBtn = this.querySelector('button[type="submit"]');
             submitBtn.disabled = true;
             
+            // Log de datos que se envían
+            const formData = new FormData(this);
+            console.log('📦 Datos a enviar:');
+            for (let [key, value] of formData.entries()) {
+                console.log(`  ${key}: ${value}`);
+            }
+            
+            console.log('🚀 Enviando a:', this.action);
+            
             // Después de 2 segundos, mostrar éxito
             setTimeout(function() {
+                console.log('✅ Mostrando mensaje de éxito');
                 document.getElementById('loadingSpinner').style.display = 'none';
                 document.getElementById('successMessage').style.display = 'block';
                 
